@@ -1,0 +1,33 @@
+#gameboard {         /* use # before an id value */
+    width: 320px;
+    height: 320px;   /* width must equal height */
+    display: flex;   /* displays an element as a block-level flex container. NB the direct child elements of a flex container automatially become flexible */
+    flex-wrap: wrap; /* specifies that the flexible items (<div class="square"></div>) will wrap if necessary */
+}
+
+.square {            /* use . before a class value */
+    height: 40px;
+    width: 40px;     /* width and height must be an eighth of the gameboard */
+}
+
+.square svg {        /* an element proceeding a class selector styles those elements belonging to that class */
+    height: 30px; 
+    width: 30px;
+    margin: 5px;     /* 5px + 30px + 5px = 40px */
+}
+
+.beige {
+    background-color: beige;
+}
+
+.brown {
+    background-color: brown;
+}
+
+.black {
+    fill: black;  /* use fill to change colour for SVG elements */
+}
+
+.white {
+    fill: white;
+}
