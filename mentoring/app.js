@@ -1,12 +1,9 @@
-/* This script creates a chessboard */
+/* Create a Chessboard */
 
 
 const gameBoard = document.querySelector('#gameboard'); 
-// the querySelector() method returns the element that matches the CSS selector '#gameboard'.
-// save this #gameboard element as a varibale, i.e., gameBoard, in this file.
 
-// define pieces variables as strings of <svg></svg> elements wrapped in <div></div> elements. NB use single quotation marks.
-// give the <div> elements a class of piece and an id.
+// define pieces variables as strings of <svg></svg> elements wrapped in <div></div> elements
 const king = '<div class="piece" id="king"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M224 0c17.7 0 32 14.3 32 32V48h16c17.7 0 32 14.3 32 32s-14.3 32-32 32H256v48H408c22.1 0 40 17.9 40 40c0 5.3-1 10.5-3.1 15.4L368 400H80L3.1 215.4C1 210.5 0 205.3 0 200c0-22.1 17.9-40 40-40H192V112H176c-17.7 0-32-14.3-32-32s14.3-32 32-32h16V32c0-17.7 14.3-32 32-32zM38.6 473.4L80 432H368l41.4 41.4c4.2 4.2 6.6 10 6.6 16c0 12.5-10.1 22.6-22.6 22.6H54.6C42.1 512 32 501.9 32 489.4c0-6 2.4-11.8 6.6-16z"/></svg></div>';
 const queen = '<div class="piece" id="queen"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M256 0a56 56 0 1 1 0 112A56 56 0 1 1 256 0zM134.1 143.8c3.3-13 15-23.8 30.2-23.8c12.3 0 22.6 7.2 27.7 17c12 23.2 36.2 39 64 39s52-15.8 64-39c5.1-9.8 15.4-17 27.7-17c15.3 0 27 10.8 30.2 23.8c7 27.8 32.2 48.3 62.1 48.3c10.8 0 21-2.7 29.8-7.4c8.4-4.4 18.9-4.5 27.6 .9c13 8 17.1 25 9.2 38L399.7 400H384 343.6 168.4 128 112.3L5.4 223.6c-7.9-13-3.8-30 9.2-38c8.7-5.3 19.2-5.3 27.6-.9c8.9 4.7 19 7.4 29.8 7.4c29.9 0 55.1-20.5 62.1-48.3zM256 224l0 0 0 0h0zM112 432H400l41.4 41.4c4.2 4.2 6.6 10 6.6 16c0 12.5-10.1 22.6-22.6 22.6H86.6C74.1 512 64 501.9 64 489.4c0-6 2.4-11.8 6.6-16L112 432z"/></svg></div>';
 const rook = '<div class="piece" id="rook"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M32 192V48c0-8.8 7.2-16 16-16h64c8.8 0 16 7.2 16 16V88c0 4.4 3.6 8 8 8h32c4.4 0 8-3.6 8-8V48c0-8.8 7.2-16 16-16h64c8.8 0 16 7.2 16 16V88c0 4.4 3.6 8 8 8h32c4.4 0 8-3.6 8-8V48c0-8.8 7.2-16 16-16h64c8.8 0 16 7.2 16 16V192c0 10.1-4.7 19.6-12.8 25.6L352 256l16 144H80L96 256 44.8 217.6C36.7 211.6 32 202.1 32 192zm176 96h32c8.8 0 16-7.2 16-16V224c0-17.7-14.3-32-32-32s-32 14.3-32 32v48c0 8.8 7.2 16 16 16zM22.6 473.4L64 432H384l41.4 41.4c4.2 4.2 6.6 10 6.6 16c0 12.5-10.1 22.6-22.6 22.6H38.6C26.1 512 16 501.9 16 489.4c0-6 2.4-11.8 6.6-16z"/></svg></div>';
@@ -29,30 +26,57 @@ const startPieces = [
 function createBoard() {
 
     // create gameboard squares
-    startPieces.forEach((startPiece, i) => {                       // For each item (startPiece) in the js startPieces array:
-        const square = document.createElement('div');              //  - create an HTML <div> element.
-        square.classList.add('square');                            //  - add class="square" to the newly created div element.
-        square.setAttribute('square-id', i);                       //  - create a new attribute to the div element: square-id="<i>", where i is the array item index.
-        square.innerHTML = startPiece;                             //  - set the HTML content of the square div equal to the array item's value. 
+    startPieces.forEach((startPiece, i) => {                       
+        const square = document.createElement('div');              
+        square.classList.add('square');                            
+        square.setAttribute('square-id', i);                       
+        square.innerHTML = startPiece;                             
+        square.firstChild?.setAttribute('draggable', true);        // if <div class="square"> conatins element <div class="piece">, make this child element draggable.
         
         // colour gameboard squares
-        const row = Math.floor( ( (63 - i) / 8) + 1 );             //    Math.floor(<arg>) method always rounds down the argument. Index i starts at 0.
-        if (row % 2 === 0) {                                       //  - if the row is even (remainder = 0 when divided by 2):
-            square.classList.add(i % 2 === 0 ? "beige" : "brown"); //  - and if the array item index is even: add class="beige", else: add class="brown".
-        } else {                                                   //  - if the row number is odd:
-            square.classList.add(i % 2 === 0 ? "brown" : "beige"); //  - and if the array item index is even: add class="brown", else: add class="beige".
+        const row = Math.floor( ( (63 - i) / 8) + 1 );             
+        if (row % 2 === 0) {                                       
+            square.classList.add(i % 2 === 0 ? "beige" : "brown"); 
+        } else {                                                   
+            square.classList.add(i % 2 === 0 ? "brown" : "beige"); 
         }
 
         // create white pieces
         if ( i < 16) {
-            square.firstChild.firstChild.classList.add("black");   //    square.firstChild.firstChild is the <svg> element (from innerHTML step).
+            square.firstChild.firstChild.classList.add("black");   //    square.firstChild.firstChild is the <svg> element
         }
         if ( i >= 48) {
-            square.firstChild.firstChild.classList.add("white");   //  - colour the SVG element white if the square div is one of the last 16.
+            square.firstChild.firstChild.classList.add("white");   
         }
 
-        gameBoard.append(square);                                  //  - append the div element (square) to the gameboard element (gameBoard)
+        gameBoard.append(square);                                  
     })
 }
 
 createBoard(); // call the function
+
+
+/* Create Drag and Drop Functionality of Pieces */
+
+
+const allSqaures = document.querySelectorAll(".square");
+allSqaures.forEach(square => {
+    square.addEventListener('dragstart', dragStart); // calls function dragStart when dragstart event occurs (user starts to drag element)
+    square.addEventListener('dragover', dragOver);   // calls function dragOver when dragover event occurs (element is being dragged over a drop target)
+    square.addEventListener('drop', dragDrop);       // calls function dragDrop when drop event occurs (draggable element is dropped in a <div> element)
+});
+
+let draggedElement;  // declare global variable
+
+function dragStart(e) {              // dragstart event (e) passed as parameter to dragStart function
+    draggedElement = e.target;       // dragstart event target = div#<id>.piece (use console.log(e) to confirm)
+};
+
+function dragOver(e) {               // dragover event (e) passed as parameter to dragOver function
+    e.preventDefault();              // by default, elements cannot be dropped in other elements
+}
+
+function dragDrop(e) {               // drop event (e) passed as parameter to dragDrop function
+    e.stopPropagation();             // stops propagation to parent/child elements
+    e.target.append(draggedElement); // drop event target = div.square.<colour class> (use console.log(e) to confirm)
+}
