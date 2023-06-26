@@ -13,7 +13,10 @@
 .square svg {        
     height: 30px; 
     width: 30px;
-    margin: 5px;     
+    margin: 5px; 
+    position: relative; /* z-index property only works on positioned elements */
+    z-index: -9;        /* low z-index brings element back 
+                           - this stops unwanted behaviour of dragged piece element being appended to svg as the drop target */
 }
 
 .piece {
