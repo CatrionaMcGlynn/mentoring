@@ -31,7 +31,7 @@ function createBoard() {
         square.classList.add('square');                            
         square.setAttribute('square-id', i);                       
         square.innerHTML = startPiece;                             
-        square.firstChild?.setAttribute('draggable', true);        // if <div class="square"> conatins element <div class="piece">, make this child element draggable.
+        square.firstChild?.setAttribute('draggable', true);        // make <div class="piece"> element draggable
         
         // colour gameboard squares
         const row = Math.floor( ( (63 - i) / 8) + 1 );             
@@ -43,7 +43,7 @@ function createBoard() {
 
         // create white pieces
         if ( i < 16) {
-            square.firstChild.firstChild.classList.add("black");   //    square.firstChild.firstChild is the <svg> element
+            square.firstChild.firstChild.classList.add("black");   // square.firstChild.firstChild is the <svg> element
         }
         if ( i >= 48) {
             square.firstChild.firstChild.classList.add("white");   
@@ -61,22 +61,30 @@ createBoard(); // call the function
 
 const allSqaures = document.querySelectorAll(".square");
 allSqaures.forEach(square => {
-    square.addEventListener('dragstart', dragStart); // calls function dragStart when dragstart event occurs (user starts to drag element)
-    square.addEventListener('dragover', dragOver);   // calls function dragOver when dragover event occurs (element is being dragged over a drop target)
-    square.addEventListener('drop', dragDrop);       // calls function dragDrop when drop event occurs (draggable element is dropped in a <div> element)
+    square.addEventListener('dragstart', dragStart); // calls function dragStart when dragstart event (e) occurs (user starts to drag element)
+    square.addEventListener('dragover', dragOver);   // calls function dragOver when dragover event (e) occurs (element is being dragged over a drop target)
+    square.addEventListener('drop', dragDrop);       // calls function dragDrop when drop event (e) occurs (draggable element is dropped in a <div> element)
 });
 
 let draggedElement;  // declare global variable
 
-function dragStart(e) {              // dragstart event (e) passed as parameter to dragStart function
-    draggedElement = e.target;       // dragstart event target = div#<id>.piece (use console.log(e) to confirm)
+function dragStart(e) {              
+    draggedElement = e.target;                      // dragstart event target = div#<id>.piece
 };
 
-function dragOver(e) {               // dragover event (e) passed as parameter to dragOver function
-    e.preventDefault();              // by default, elements cannot be dropped in other elements
+function dragOver(e) {               
+    e.preventDefault();                             
 }
 
-function dragDrop(e) {               // drop event (e) passed as parameter to dragDrop function
-    e.stopPropagation();             // stops propagation to parent/child elements
-    e.target.append(draggedElement); // drop event target = div.square.<colour class> (use console.log(e) to confirm)
+function dragDrop(e) {                              
+    e.stopPropagation();                            
+    //console.log(e);
+    if (e.target.classList.contains('piece')) {     // if dragged piece element is dropped onto another piece element
+        e.target.parentNode.append(draggedElement); // - drop event target = div#<id>.piece
+        e.target.remove();                          // - remove captured piece
+        return
+    } else {
+        e.target.append(draggedElement);            // drop event target = div.square.<colour class>
+        return
+    }
 }
