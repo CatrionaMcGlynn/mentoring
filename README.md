@@ -7,3 +7,4 @@ Branches:
 * Main - all code
 * Styling - creating the chess board
 * DragDrop - adding drag and drop funcitonality to chess pieces
+* DropEvent - adding functionality to take pieces
